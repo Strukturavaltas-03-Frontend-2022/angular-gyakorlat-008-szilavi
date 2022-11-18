@@ -4,15 +4,12 @@ import { Observable } from 'rxjs';
 import { Event } from '../model/event';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
+  eventsUrl: string = 'https://nettuts.hu/jms/feladat/events';
 
-  eventsUrl: string = "https://nettuts.hu/jms/feladat/events";
-
-  constructor(
-    private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<Event[]> {
     return this.http.get<Event[]>(this.eventsUrl);
@@ -23,10 +20,14 @@ export class EventService {
   }
 
   update(event: Event): Observable<Event> {
-    return this.http.patch<Event>(
-      `${this.eventsUrl}/${event.id}`,
-      event,
-    );
+    return this.http.patch<Event>(`${this.eventsUrl}/${event.id}`, event);
   }
 
+  create(event: Event): Observable<Event> {
+    return this.http.post<Event>(this.eventsUrl, event);
+  }
+
+  remove(event: Event): Observable<Event> {
+    return this.http.delete<Event>(`${this.eventsUrl}/${event.id}`);
+  }
 }
