@@ -11,7 +11,12 @@ import { EventService } from 'src/app/service/event.service';
 })
 export class EventsListComponent implements OnInit {
   eventList$: Observable<Event[]> = this.eventService.getAll();
+
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {}
+
+  onDelete(event: Event): void {
+    this.eventService.remove(event.id);
+  }
 }

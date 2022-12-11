@@ -43017,8 +43017,8 @@ If '${name}' is a directive input, make sure the directive is imported by the cu
         create(event) {
           return this.http.post(this.eventsUrl, event);
         }
-        remove(event) {
-          return this.http.delete(`${this.eventsUrl}/${event.id}`);
+        remove(id) {
+          return this.http.delete(`${this.eventsUrl}/${id}`);
         }
       };
       EventService = __decorateClass([
@@ -43288,10 +43288,12 @@ If '${name}' is a directive input, make sure the directive is imported by the cu
     <div class="col-10">\r
       <h3>All of the events should show below</h3>\r
     </div>\r
-    <div class="col-2 text-right">\r
-\r
-    </div>\r
+    <div class="col-2 text-right"></div>\r
   </div>\r
+\r
+  <button [routerLink]="['event', 0]" class="btn btn-success btn-lg">\r
+    Create new Event\r
+  </button>\r
 \r
   <table class="table">\r
     <thead>\r
@@ -43305,22 +43307,23 @@ If '${name}' is a directive input, make sure the directive is imported by the cu
     </thead>\r
     <tbody>\r
       <tr *ngFor="let event of eventList$ | async">\r
-        <td>{{event.name}}</td>\r
-        <td>{{event.date}} </td>\r
-        <td>{{event.time}}</td>\r
-        <td>{{event.location}}</td>\r
+        <td>{{ event.name }}</td>\r
+        <td>{{ event.date }}</td>\r
+        <td>{{ event.time }}</td>\r
+        <td>{{ event.location }}</td>\r
         <td>\r
           <div class="btn-group">\r
             <button [routerLink]="['event/' + event.id]" class="btn btn-info">\r
               <i class="fa fa-pencil"></i>\r
             </button>\r
-\r
+            <button class="btn btn-danger" (click)="onDelete(event)">\r
+              <i class="fa fa-trash"></i>\r
+            </button>\r
           </div>\r
         </td>\r
       </tr>\r
     </tbody>\r
   </table>\r
-\r
 </div>\r
 `;
     }
@@ -47233,6 +47236,9 @@ If '${name}' is a directive input, make sure the directive is imported by the cu
           this.eventList$ = this.eventService.getAll();
         }
         ngOnInit() {
+        }
+        onDelete(event) {
+          this.eventService.remove(event.id);
         }
       };
       EventsListComponent = __decorateClass([

@@ -3,10 +3,12 @@
     <div class="col-10">
       <h3>All of the events should show below</h3>
     </div>
-    <div class="col-2 text-right">
-
-    </div>
+    <div class="col-2 text-right"></div>
   </div>
+
+  <button [routerLink]="['event', 0]" class="btn btn-success btn-lg">
+    Create new Event
+  </button>
 
   <table class="table">
     <thead>
@@ -20,20 +22,21 @@
     </thead>
     <tbody>
       <tr *ngFor="let event of eventList$ | async">
-        <td>{{event.name}}</td>
-        <td>{{event.date}} </td>
-        <td>{{event.time}}</td>
-        <td>{{event.location}}</td>
+        <td>{{ event.name }}</td>
+        <td>{{ event.date }}</td>
+        <td>{{ event.time }}</td>
+        <td>{{ event.location }}</td>
         <td>
           <div class="btn-group">
             <button [routerLink]="['event/' + event.id]" class="btn btn-info">
               <i class="fa fa-pencil"></i>
             </button>
-
+            <button class="btn btn-danger" (click)="onDelete(event)">
+              <i class="fa fa-trash"></i>
+            </button>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
-
 </div>

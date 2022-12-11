@@ -2,9 +2,8 @@
   <div *ngIf="event$ | async as event" class="col-6 offset-3">
     <form #eventForm="ngForm" (ngSubmit)="onUpdate(eventForm, event)">
       <div class="form-group">
-        <label for="name">Name</label>
+        <label for="">Name</label>
         <input
-          id="name"
           name="name"
           [(ngModel)]="event.name"
           type="text"
@@ -12,54 +11,55 @@
           pattern=".{8,25}"
           required
         />
-        <div [hidden]="eventForm.controls.name.valid" class="error-message">
-          The name of the event must be between 8 and 25 chars.
+        <div [hidden]="eventForm.controls['name']?.valid" class="error-message">
+          The name of the event must be minimum 8 and maximum 25 characters
+          long!
         </div>
       </div>
       <div class="form-group">
-        <label for="date">Date</label>
+        <label for="">Date</label>
         <input
-          id="date"
           name="date"
           [(ngModel)]="event.date"
           type="text"
           class="form-control"
-          pattern="^([1-9]|1[0-2])\/([1-9]|[1-2][0-9]|3[0-1])\/\d{4}"
+          pattern="/^(0[1-9]|[12]\d|3[01])[\/](0[1-9]|1[0-2])[\/](19|20)\d{2}$/gm"
           required
         />
-        <div [hidden]="eventForm.controls.date.valid" class="error-message">
-          The date should be in the 00/00/0000 day/month/year format.
+        <div [hidden]="eventForm.controls['date']?.valid" class="error-message">
+          The date must be the following: DD/MM/YY!
         </div>
       </div>
       <div class="form-group">
-        <label for="time">Time</label>
+        <label for="">Time</label>
         <input
-          id="time"
           name="time"
           [(ngModel)]="event.time"
           type="text"
           class="form-control"
-          pattern="^([0][0-9]|[1][0-2])(am|pm)"
           required
+          pattern="/(0\d|1[0-2]):([0-5]\d) (AM|PM)/g"
         />
-        <div [hidden]="eventForm.controls.time.valid" class="error-message">
-          The time should be in the 00am or 00pm format.
+        <div [hidden]="eventForm.controls['time']?.valid" class="error-message">
+          The time must be the following: 00:00 am/pm!
         </div>
       </div>
       <div class="form-group">
-        <label for="location">Location</label>
+        <label for="">Location</label>
         <input
-          id="location"
           name="location"
           [(ngModel)]="event.location"
           type="text"
           class="form-control"
-          pattern="^[A-Z].{4,24}"
+          pattern="[A-Z].{4,24}"
           required
         />
-        <div [hidden]="eventForm.controls.location.valid" class="error-message">
-          The location of the event must be between 8 and 25 chars and should be
-          start with upcase.
+        <div
+          [hidden]="eventForm.controls['location']?.valid"
+          class="error-message"
+        >
+          The location must start with capital letter and must be minimum 5 and
+          maximum 25 characters long!
         </div>
       </div>
 
